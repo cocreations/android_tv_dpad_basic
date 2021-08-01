@@ -2,27 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(DPadWrapper());
-}
-
-class DPadWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-      },
-      child: Actions(
-          actions: {
-            ActivateIntent: CallbackAction(onInvoke: (i) {
-              print('Action received is $i');
-              return null;
-            }),
-          },
-          child: MyApp(),
-      ),
-    );
-  }
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: "Android TV Demo"),
     );
   }
 }
@@ -66,8 +46,18 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class LeftIntent extends Intent {}
+class RightIntent extends Intent {}
+class UpIntent extends Intent {}
+class DownIntent extends Intent {}
+class ActionIntent extends Intent {}
+
 class _MyHomePageState extends State<MyHomePage> {
+
   int _counter = 0;
+  Intent? _intentId;
+  String? _actionName;
+  
 
   void _incrementCounter() {
     setState(() {
@@ -80,55 +70,93 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _readAction(n, i) {
+    setState(() {
+      _intentId = i;
+      _actionName = n;
+    });  
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+
+    return Shortcuts(
+      shortcuts: <LogicalKeySet, Intent>{
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(), // OR could be : ActionIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp): UpIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown): DownIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowRight): RightIntent(),
+      },
+      child: Actions(
+          actions: {
+            LeftIntent: CallbackAction(onInvoke: (Intent i) { _readAction('LEFT', i); return null; }), 
+            RightIntent: CallbackAction(onInvoke: (Intent i) { _readAction('RIGHT', i); return null; }), 
+            UpIntent: CallbackAction(onInvoke: (Intent i) { _readAction('UP', i); return null; }), 
+            DownIntent: CallbackAction(onInvoke: (Intent i) { _readAction('DOWN', i); return null; }), 
+            ActionIntent: CallbackAction(onInvoke: (Intent i) { _readAction('ACTION', i); return null; }), 
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              // Here we take the value from the MyHomePage object that was created by
+              // the App.build method, and use it to set our appbar title.
+              title: Text(widget.title),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            body: Center(
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              child: Column(
+                // Column is also a layout widget. It takes a list of children and
+                // arranges them vertically. By default, it sizes itself to fit its
+                // children horizontally, and tries to be as tall as its parent.
+                //
+                // Invoke "debug painting" (press "p" in the console, choose the
+                // "Toggle Debug Paint" action from the Flutter Inspector in Android
+                // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+                // to see the wireframe for each widget.
+                //
+                // Column has various properties to control how it sizes itself and
+                // how it positions its children. Here we use mainAxisAlignment to
+                // center the children vertically; the main axis here is the vertical
+                // axis because Columns are vertical (the cross axis would be
+                // horizontal).
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Use the Android remote control',
+                  ),
+                  Text(
+                    'The value of the latest button is ($_intentId) :',
+                  ),
+                  Text(
+                    '$_actionName',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Text(
+                    '\nYou have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: _incrementCounter,
+              tooltip: 'Increment',
+              child: Icon(Icons.add),
+            ), // This trailing comma makes auto-formatting nicer for build methods.
+          ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
