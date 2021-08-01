@@ -12,10 +12,6 @@ flutter run
 
 ## How to deploy to Android TV
 
-We just got one of these fancy new Android TV’s; And I’m a Flutter developer.
-I’d like to make apps that I can play on the TV.
-
-The thing to achieve first is deploying my own local app onto my Android TV.
 
 #### First Build the App Locally and Make It Available for Download
 
@@ -44,7 +40,7 @@ and type in the ngrok URL
 
 -----
 
-## Want custom Androd TV, or Mobile apps developed ?
+## Want custom Androd TV or Mobile apps developed ?
 
 CoCreations is a software house that works closely with you to develop unique and beautiful mobile apps and systems.
 
