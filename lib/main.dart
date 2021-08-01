@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(DPadWrapper());
+}
+
+class DPadWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shortcuts(
+      shortcuts: <LogicalKeySet, Intent>{
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+      },
+      child: Actions(
+          actions: {
+            ActivateIntent: CallbackAction(onInvoke: (i) {
+              print('Action received is $i');
+              return null;
+            }),
+          },
+          child: MyApp(),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
