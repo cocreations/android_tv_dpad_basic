@@ -15,7 +15,7 @@ flutter run
 
 #### First Build the App Locally and Make It Available for Download
 
-1. Build an app that has the “d-pad” support (here is one I prepared earlier: https://github.com/krisrandall/android_tv_dpad_basic)
+1. Build an app that has the “d-pad” support (here is one I prepared earlier: https://github.com/cocreations/android_tv_dpad_basic)
 2. Use [`serve`](https://www.npmjs.com/package/serve) in the folder with the .apk so it’s available via port 80
 3. Use [`ngrok`](https://ngrok.com/) to get the location available on the internet
 
@@ -38,10 +38,11 @@ and type in the ngrok URL
 (eg. https://b3cdd4f102eb.ngrok.io/app-release.apk)
 6. Install and Open the app !
 
+
 -----
 
 ## Want custom Androd TV or Mobile apps developed ?
 
 CoCreations is a software house that works closely with you to develop unique and beautiful mobile apps and systems.
 
-[![](ccl.png)](https://cocreations.com.au/)
+[![](ccl.jpg)](https://cocreations.com.au/)
