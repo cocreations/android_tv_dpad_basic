@@ -45,4 +45,4 @@ and type in the ngrok URL
 
 CoCreations is a software house that works closely with you to develop unique and beautiful mobile apps and systems.
 
-[![](ccl.jpg)](https://cocreations.com.au/)
+[![](cc1.jpg)](https://cocreations.com.au/)
